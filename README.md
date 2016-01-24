@@ -60,7 +60,7 @@ export default Ember.Controller.extend({
 
 A delay before showing the animation, but after disabling the button.
 
-**Default**: `150ms`. _Any value <4ms will disable this feature._
+**Default**: `150`. _Any value <4ms will disable this feature._
 
 ### `inFlight` (deprecated)
 

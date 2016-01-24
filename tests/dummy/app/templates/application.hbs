@@ -20,6 +20,12 @@
     <div class="control-group">
       <label for="button-timeout-range">{{timeout}}ms</label> {{input id="button-timeout-range" type="range" max="60000" step="500" value=timeout}}
     </div>
+
+    <h3>Start delay</h3>
+    <p class="help-block">Note: try setting start delay lower or higher than "timeout" and observe the different behaviour.</p>
+    <div class="control-group">
+        <label for="button-timeout-range">{{delay}}ms</label> {{input id="button-delay-range" type="range" max="60000" step="500" value=delay}}
+    </div>
   </div>
 
   <p><label>{{input type="checkbox" checked=inFlight}} In-Flight</label></p>
@@ -28,6 +34,7 @@
     <p class="demo">Demo (With Promises)</p>
     {{#spin-button
       color=selectedColor
+      startDelay=delay
       action=(action "createWithPromise")
       defaultTimout=timeout
       buttonStyle=selectedAnimation}}Do Something Expensive{{/spin-button}}
@@ -36,6 +43,7 @@
     {{#spin-button
       color=selectedColor
       inFlight=inFlight
+      startDelay=delay
       action=(action "createWithoutPromise")
       defaultTimout=timeout
       buttonStyle=selectedAnimation}}Do Something Expensive{{/spin-button}}

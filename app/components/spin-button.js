@@ -55,12 +55,14 @@ export default Ember.Component.extend({
   defaultTimout: 10E3,
   startDelay: 100,
 
+  createSpinnerRunLater: null,
+
   attributeBindings: [
     'disabled',
     'type',
     'color:data-color',
     'buttonStyle:data-style'],
-  classNameBindings: ['inFlight:in-flight:ready', ':spin-button'],
+  classNameBindings: ['inFlightStyle:in-flight:ready', ':spin-button'],
 
   _timer: null,
 
@@ -90,16 +92,25 @@ export default Ember.Component.extend({
       this.setDisabled();
 
       if (this.get('startDelay') > 4) {
-        Ember.run.later(this, this.createSpinner, element, this.get('startDelay'));
+       this.set('createSpinnerRunLater', Ember.run.later(this, this.createSpinner, element, this.get('startDelay')));
       }else{
         this.createSpinner(element);
       }
     }else{
+      Ember.run.cancel(this.get('createSpinnerRunLater'));
+      this.set('createSpinnerRunLater', null);
       this.setEnabled();
     }
   }.observes('inFlight'),
 
+  cancelScheduledCreateSpinner(scheduled){
+    return function(){
+      Ember.run.cancel(scheduled);
+    };
+  },
+
   createSpinner: function(element) {
+    this.set('inFlightStyle', true);
     if(!this._spinner) {
       this._spinner = createSpinner( element );
       this._spinner.spin(element.querySelector('.spin-button-spinner'));
@@ -117,6 +128,7 @@ export default Ember.Component.extend({
   },
 
   setEnabled: function(){
+    this.set('inFlightStyle', false);
     if(this._timer) { Ember.run.cancel(this._timer); }
     if (this._spinner) {
       this._spinner.stop();
@@ -126,8 +138,8 @@ export default Ember.Component.extend({
     if (!this.get('isDestroyed')) {
       this.setProperties({
         disabled: false,
-        inFlight: false,
+        inFlight: false
       });
     }
-  },
+  }
 });
