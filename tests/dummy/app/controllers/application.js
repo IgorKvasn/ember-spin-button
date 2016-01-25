@@ -13,8 +13,8 @@ export default Ember.Controller.extend({
   init(){
     this._super.apply(this, arguments);
 
-    this.set('selectedAnimation', this.get('buttonStyles').objectAt(0));
-    this.set('selectedColor', this.get('buttonColors').objectAt(0));
+    this.selectedAnimation = this.get('buttonStyles').objectAt(0);
+    this.selectedColor = this.get('buttonColors').objectAt(0);
   },
 
   actions: {

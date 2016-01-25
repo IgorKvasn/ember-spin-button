@@ -60,7 +60,7 @@ export default Ember.Component.extend({
     'type',
     'color:data-color',
     'buttonStyle:data-style'],
-  classNameBindings: ['inFlightStyle:in-flight:ready', ':spin-button'],
+  classNameBindings: ['showInFlightAnimation:in-flight:ready', ':spin-button'],
 
   _timer: null,
   _spinnerTimer: null,
@@ -103,7 +103,7 @@ export default Ember.Component.extend({
   }.observes('inFlight'),
 
   createSpinner: function(element) {
-    this.set('inFlightStyle', true);
+    this.set('showInFlightAnimation', true);
     if(!this._spinner) {
       this._spinner = createSpinner( element );
       this._spinner.spin(element.querySelector('.spin-button-spinner'));
@@ -121,7 +121,7 @@ export default Ember.Component.extend({
   },
 
   setEnabled: function(){
-    this.set('inFlightStyle', false);
+    this.set('showInFlightAnimation', false);
     if(this._timer) { Ember.run.cancel(this._timer); }
     if (this._spinner) {
       this._spinner.stop();
